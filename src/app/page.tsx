@@ -27,7 +27,7 @@ export default function AboutPage() {
       <div className="relative bg-white">
         <div className="container mx-auto px-4 py-16 sm:py-24 text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            Vivere nel cuore di Torino
+            Vivere nel cuore di Torino!
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600">
             Un nuovo modo di abitare per giovani studenti e professionisti. Appartamenti indipendenti con spazi comuni pensati per la socialità e lo studio.
