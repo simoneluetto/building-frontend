@@ -1,4 +1,6 @@
 import React from 'react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 // A simple component for amenity items
 const AmenityItem = ({ icon, title, description }: { icon: string, title: string, description: string }) => (
@@ -77,7 +79,7 @@ export default function AboutPage() {
                 Stiamo mettendo a punto gli ultimi dettagli per creare uno spazio unico. Contattaci per rimanere aggiornato e scoprire di più.
             </p>
             <p className="mt-4 text-lg text-blue-100 max-w-2xl mx-auto">
-                Mail: info@boscodellaquila.it - Telefono: +39 0123 456789
+                Mail: info@boscodellaquila.it
             </p>
         </div>
       </div>
