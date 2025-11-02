@@ -1,6 +1,4 @@
 import React from 'react';
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/next"
 
 // A simple component for amenity items
 const AmenityItem = ({ icon, title, description }: { icon: string, title: string, description: string }) => (

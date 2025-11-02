@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 // import Header from "@/components/Header";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +25,8 @@ export default function RootLayout({
         {/* <Header /> */}
         <main className="container mx-auto px-6 py-8">
           {children}
+          <Analytics />
+          <SpeedInsights />
         </main>
         <footer className="text-center py-6 mt-12 bg-white border-t">
             <p>&copy; {new Date().getFullYear()} Bosco dell'Aquila. Tutti i diritti riservati.</p>
