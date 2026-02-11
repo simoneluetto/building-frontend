@@ -78,7 +78,7 @@ export default function AboutPage() {
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900">La Posizione</h2>
                 <p className="mt-4 text-lg text-gray-600">
-                    Via Aquila 8 — A pochi passi dalla Metro e dal Politecnico.
+                    Via Aquila 8 — A pochi passi da Tram e Metro e vicino al centro.
                 </p>
             </div>
             
