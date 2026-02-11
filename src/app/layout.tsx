@@ -32,6 +32,7 @@ export default function RootLayout({
             <p>&copy; {new Date().getFullYear()} Bosco dell'Aquila. Tutti i diritti riservati.</p>
             <p className="text-sm text-gray-500 mt-1">Via Aquila 8, 10144 Torino TO</p>
             <p className="text-sm text-gray-500 mt-1">Mail: info@boscodellaquila.it</p>
+            <a href="/privacy" className="text-blue-300 hover:text-white text-xs mx-2">Privacy Policy</a>
         </footer>
       </body>
     </html>
