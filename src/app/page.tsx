@@ -123,9 +123,9 @@ export default function AboutPage() {
               📝 Compila il form
             </a>
 
-            <p className="mt-12 text-sm text-blue-200">
+            {/* <p className="mt-12 text-sm text-blue-200">
                 Hai domande? Scrivici a <a href="mailto:info@boscodellaquila.it" className="underline hover:text-white">info@boscodellaquila.it</a>
-            </p>
+            </p> */}
         </div>
       </div>
 

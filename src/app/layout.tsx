@@ -1,19 +1,25 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import Header from "@/components/Header";
 import React from "react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Bosco dell'Aquila - Appartamenti per giovani",
-  description: "Una nuova residenza con 14 appartamenti moderni a Torino, pensata per studenti e giovani lavoratori.",
+  description: "Una nuova residenza con 14 appartamenti moderni a Torino.",
 };
 
-// We add a type for the 'children' prop to make our layout type-safe.
+// 1. Force Light Mode on Mobile (Fixes the black border/notch)
+export const viewport: Viewport = {
+  themeColor: "#f9fafb",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -21,19 +27,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="it">
-      <body className={`${inter.className} bg-gray-50 text-gray-800`}>
-        {/* <Header /> */}
-        <main className="container mx-auto px-6 py-8">
+      {/* 2. Force light mode CSS classes */}
+      <body className={`${inter.className} bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen`}>
+        
+        {/* Main Content: Grow to fill space, full width */}
+        <main className="flex-grow w-full">
           {children}
           <Analytics />
           <SpeedInsights />
         </main>
-        <footer className="text-center py-6 mt-12 bg-white border-t">
-            <p>&copy; {new Date().getFullYear()} Bosco dell'Aquila. Tutti i diritti riservati.</p>
-            <p className="text-sm text-gray-500 mt-1">Via Aquila 8, 10144 Torino TO</p>
-            <p className="text-sm text-gray-500 mt-1">Mail: info@boscodellaquila.it</p>
-            <a href="/privacy" className="text-blue-300 hover:text-white text-xs mx-2">Privacy Policy</a>
+
+        {/* 3. Global Footer (Appears on EVERY page) */}
+        <footer className="bg-white border-t border-gray-200 py-12">
+            <div className="container mx-auto px-4 text-center">
+                <h4 className="font-bold text-lg mb-4">Bosco dell'Aquila 🦅</h4>
+                
+                <div className="space-y-2 text-gray-600 text-sm mb-8">
+                    <p>Via Aquila 8, 10144 Torino (TO)</p>
+                    <p>
+                        <a href="mailto:info@boscodellaquila.it" className="text-blue-600 hover:underline">
+                            info@boscodellaquila.it
+                        </a>
+                    </p>
+                </div>
+
+                <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                    <p>&copy; {new Date().getFullYear()} Tutti i diritti riservati.</p>
+                    <div className="mt-4 md:mt-0 space-x-4">
+                        <a href="/privacy" className="hover:text-blue-600 transition">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
         </footer>
+
       </body>
     </html>
   );

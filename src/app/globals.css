@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* Force Light Mode variables */
+  --background: #f9fafb; /* Matches bg-gray-50 */
   --foreground: #171717;
+  
+  /* CRITICAL: Tells the browser UI (notch, scrollbar) to be light */
+  color-scheme: light; 
 }
+
+/* Remove the @media (prefers-color-scheme: dark) block entirely */
 
 @theme inline {
   --color-background: var(--background);
@@ -12,15 +18,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* Ensure the body fills the height to prevent bottom gaps */
+  min-height: 100vh;
 }
