@@ -9,11 +9,8 @@ export default function RegolamentoPage() {
         {/* Header */}
         <div className="bg-blue-600 px-6 py-8 sm:px-10 text-center">
           <h1 className="text-3xl font-bold text-white">
-            Regolamento di Convivenza 🦅
+           Bosco dell'Aquila — Regolamento di Convivenza 🦅
           </h1>
-          <p className="mt-2 text-blue-100 text-lg">
-            Bosco dell'Aquila — Linee guida per una community felice
-          </p>
         </div>
 
         {/* Content */}
@@ -22,7 +19,7 @@ export default function RegolamentoPage() {
           <div className="prose prose-blue max-w-none">
             <p className="text-lg text-gray-600">
               Benvenuto a casa! Per garantire a tutti i residenti (studenti e giovani professionisti) 
-              un ambiente sereno, pulito e stimolante, abbiamo stabilito alcune semplici regole di convivenza. 
+              un ambiente sereno e pulito, abbiamo stabilito alcune semplici regole di convivenza. 
               Vivere qui significa far parte di una comunità: il rispetto reciproco è la chiave di tutto.
             </p>
           </div>
@@ -40,10 +37,10 @@ export default function RegolamentoPage() {
                   Siamo una residenza attenta all'ambiente che punta grazie a pannelli fotovoltaici e teleriscaldamento ad una alta efficenza e un basso impatto ambientale.
                 </p>
                 <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
-                  <li><strong>Riscaldamento:</strong> Evita di tenere le finestre spalancate con i termosifoni accesi.</li>
+                  <li><strong>Riscaldamento:</strong> Evita di tenere le finestre spalancate con il riscaldamento acceso.</li>
                   <li><strong>Condizionatore</strong> Non lasciare il condizionatore acceso quando sei fuori dall'appartamento.</li>
                   <li><strong>Luci e Acqua:</strong> Spegni le luci quando esci dalla stanza o dalle aree comuni. Non lasciare scorrere l'acqua inutilmente.</li>
-                  <li><strong>Elettrodomestici:</strong> Usa le lavatrici comuni quando necessario e non per pochi vestiti.</li>
+                  <li><strong>Elettrodomestici:</strong> Usa le lavatrici comuni a pieno carico.</li>
                 </ul>
               </div>
             </div>
@@ -82,7 +79,7 @@ export default function RegolamentoPage() {
                 </p>
                 <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
                   <li><strong>Diurno:</strong> Gli ospiti sono benvenuti durante il giorno, purché non disturbino lo studio o la quiete altrui. Inoltre la presenza di propri ospiti non deve impedire agli altri inquilini di usufruire delle aree comuni.</li>
-                  <li><strong>Pernottamento:</strong> È consentito ospitare occasionalmente (max 2-3 notti al mese) un amico/partner, previa comunicazione ai coinquilini in caso di trilocale.</li>
+                  <li><strong>Pernottamento:</strong> È consentito ospitare occasionalmente (max 2-3 notti al mese) un amico/partner, ovviamente previa comunicazione ai coinquilini in caso di trilocale.</li>
                   <li><strong>Responsabilità:</strong> Sei responsabile al 100% del comportamento dei tuoi ospiti all'interno della struttura.</li>
                 </ul>
               </div>
@@ -115,7 +112,7 @@ export default function RegolamentoPage() {
                 <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
                   <li>Chiudi sempre il portone d'ingresso e la porta del tuo appartamento.</li>
                   <li>Non cedere le tue chiavi a terzi, se non per necessità specifiche e concordate.</li>
-                  <li>È severamente vietato fumare all'interno delle aree comuni chiuse. Usa le terrazze e i posaceneri.</li>
+                  <li>È vietato fumare all'interno degli appartamenti e delle aree comuni chiuse. Usa le terrazze e i posaceneri.</li>
                 </ul>
               </div>
             </div>

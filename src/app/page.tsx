@@ -1,135 +1,391 @@
-import React from 'react';
-import Image from "next/image"; // Add this import at the top
+"use client";
 
-// A simple component for amenity items
-const AmenityItem = ({ icon, title, description }: { icon: string, title: string, description: string }) => (
-  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-    <div className="flex flex-col items-start">
-      <div className="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-50 text-blue-600 mb-6">
-        <span className="text-3xl">{icon}</span>
-      </div>
-      <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-      <p className="mt-3 text-base text-gray-600 leading-relaxed">{description}</p>
-    </div>
-  </div>
-);
+import React, { useState, useEffect } from 'react';
 
-export default function AboutPage() {
-  const buildingAddress = "Via Aquila 8, 10144 Torino TO, Italy";
+// --- DATA CONFIGURATION ---
+// Replace the URLs below with your local image paths when you copy this into Next.js
+// Example: "/PXL_20260222_154049867~2.jpg"
+const commonAreaImages = [
+  "/terrazze1.jpg",
+  "/terrazze2.jpg",
+  "/terrazze3.jpg",
+];
+
+const apartmentImages = [
+  "/living1.jpg",
+  "/living2.jpg",
+  "/living3.jpg",
+  "/living4.jpg",
+  "/bagno1.jpg",
+  "/camera1.jpg",
+];
+
+// --- ICONS ---
+const Icons = {
+  Expand: () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>,
+  X: () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
+  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>,
+  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
+};
+
+export default function App() {
+  const [galleryState, setGalleryState] = useState({
+    isOpen: false,
+    images: [],
+    currentIndex: 0
+  });
+
+  const openGallery = (images, index = 0) => {
+    setGalleryState({ isOpen: true, images, currentIndex: index });
+  };
+
+  const closeGallery = () => {
+    setGalleryState(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    setGalleryState(prev => ({
+      ...prev,
+      currentIndex: prev.currentIndex === prev.images.length - 1 ? 0 : prev.currentIndex + 1
+    }));
+  };
+
+  const prevImage = (e) => {
+    e.stopPropagation();
+    setGalleryState(prev => ({
+      ...prev,
+      currentIndex: prev.currentIndex === 0 ? prev.images.length - 1 : prev.currentIndex - 1
+    }));
+  };
+
+  // Handle keyboard navigation for the gallery
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!galleryState.isOpen) return;
+      if (e.key === 'Escape') closeGallery();
+      if (e.key === 'ArrowRight') nextImage(e);
+      if (e.key === 'ArrowLeft') prevImage(e);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [galleryState.isOpen]);
+
   const mapUrl = "https://www.google.com/maps/place/Via+Aquila,+8,+10144+Torino+TO";
+
   return (
-    <div className="bg-gray-50 min-h-screen font-sans selection:bg-blue-100">      
+    <div className="bg-gray-50 min-h-screen font-sans selection:bg-blue-200 selection:text-blue-900">      
       
-      {/* Simple Navbar */}
-      <nav className="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
-        <div className="text-xl font-bold text-gray-900 tracking-tight">
-            Bosco dell'Aquila 🦅
+      {/* Lightbox Gallery Modal */}
+      {galleryState.isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm" onClick={closeGallery}>
+          <button onClick={closeGallery} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50">
+            <Icons.X />
+          </button>
+          
+          <button onClick={prevImage} className="absolute left-4 sm:left-10 text-white/70 hover:text-white transition-colors z-50">
+            <Icons.ChevronLeft />
+          </button>
+          
+          <img 
+            src={galleryState.images[galleryState.currentIndex]} 
+            alt={`Gallery image ${galleryState.currentIndex + 1}`}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-sm"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+          />
+          
+          <button onClick={nextImage} className="absolute right-4 sm:right-10 text-white/70 hover:text-white transition-colors z-50">
+            <Icons.ChevronRight />
+          </button>
+
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white/70 text-sm font-medium tracking-widest z-50">
+            {galleryState.currentIndex + 1} / {galleryState.images.length}
+          </div>
+        </div>
+      )}
+
+      {/* Navbar */}
+      <nav className="fixed top-0 left-0 w-full p-4 sm:p-6 flex justify-between items-center z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div className="container mx-auto flex justify-between items-center px-4">
+          <div className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+            <span className="text-blue-600">Bosco</span> dell'Aquila 🦅
+          </div>
+          <a 
+            href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hidden sm:inline-block px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            Iscriviti alla lista d'attesa
+          </a>
         </div>
       </nav>
       
-      {/* Hero Section with Gradient */}
-      <div className="relative pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden bg-gradient-to-b from-blue-50 to-gray-50">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          {/* A "Pill" badge to look pro */}
-          <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-6 tracking-wide">
-            📍 Torino, Zona San Donato
-          </span>
+      {/* Hero Section */}
+      <div className="relative pt-24 pb-12 lg:pt-32 lg:pb-0 overflow-hidden bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+            
+            <div className="w-full lg:w-1/2 pt-10 lg:pt-20 lg:pb-32 z-10 text-center lg:text-left">
+              <span className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 tracking-wide border border-blue-100">
+                📍 Torino, Zona San Donato
+              </span>
 
-          <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl md:text-7xl mb-8">
-            Vivere nel cuore <br className="hidden sm:block" />
-            <span className="text-blue-600">di Torino.</span>
-          </h1>
-          
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-600 mb-10 leading-relaxed">
-            Un nuovo concetto di abitare per studenti e giovani professionisti. 
-            Privacy nei tuoi spazi, community dove conta.
-          </p>
-          <div className="flex justify-center gap-4">
-            <a 
-              href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-            >
-              📝 Compila il form se sei interessato
-            </a>
+              <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl xl:text-7xl mb-6">
+                Vivere nel cuore <br className="hidden lg:block" />
+                <span className="text-blue-600">di Torino.</span>
+              </h1>
+              
+              <p className="max-w-xl mx-auto lg:mx-0 text-xl text-gray-600 mb-10 leading-relaxed">
+                Un nuovo edificio residenziale pensato per studenti e giovani lavoratori. 
+                Appartamenti privati per la tua privacy e tanti spazi per la community.
+              </p>
+              <p className="max-w-xl mx-auto lg:mx-0 text-2xl font-extrabold text-blue-600 mb-10 leading-relaxed">
+                Prossima apertura primavera 2026
+              </p>              
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                <a 
+                  href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  📝 Compila il form di interesse
+                </a>
+              </div>
+            </div>
+
+            {/* Changed from lg:rounded-tl-[80px] to rounded-3xl and added transform-gpu to fix shadow artifact bleeding */}
+            <div className="w-full lg:w-1/2 h-[400px] lg:h-[700px] relative rounded-3xl overflow-hidden shadow-2xl transform-gpu">
+              <img 
+                src="/esterno1.jpg" 
+                alt="Bosco dell'Aquila Exterior"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
           </div>
         </div>
       </div>
 
-      {/* Amenities Grid */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Spazi Pensati per Te</h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-                Non solo un posto letto. Abbiamo progettato ogni metro quadro per offrirti qualità della vita.
-            </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AmenityItem icon="📚" title="Sala Studio" description="Scrivanie dedicate, silenzio e Wi-Fi veloce. Il luogo ideale per preparare il prossimo esame senza distrazioni." />
-            <AmenityItem icon="🎮" title="Sala Relax" description="Cinema, gaming e zona lounge. Uno spazio condiviso dove staccare la spina e conoscere i tuoi vicini." />
-            <AmenityItem icon="☀️" title="Terrazze Panoramiche" description="Aria aperta e vista sulla città. Perfette per un caffè al sole, una sessione di yoga o un aperitivo al tramonto." />
+{/* SECTION 2: The Apartments (Soluzioni Abitative) */}
+<div className="bg-white py-24 border-t border-gray-100 overflow-hidden">
+        <div className="container mx-auto px-4">
+          
+          {/* Changed to flex-col so Text appears before Gallery on mobile */}
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            
+            {/* Left: Text Content */}
+            <div className="w-full lg:w-1/2">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-6">
+                Le Soluzioni Abitative
+              </h2>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Che tu stia cercando la massima indipendenza o preferisca condividere gli spazi, abbiamo la soluzione adatta alle tue esigenze.
+              </p>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Tutti gli appartamenti sono completamente rinnovati e arredati a nuovo. Dispongono di tutto l'arredo necessario, aria condizionata e bagni di nuova realizzazione.
+                Inoltre come servizi sono inclusi lavanderia comune, wi-fi e parcheggio interno per le biciclette.
+              </p>
+
+              <div className="grid gap-6">
+                <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">🔑</span> Monolocali
+                  </h3>
+                  <p className="text-gray-600">
+                    Spazi totalmente indipendenti e luminosi. 
+                    Ideali per chi cerca la massima privacy, completi di cucina, zona giorno con divano e tavolo, zona notte e bagno.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-xl font-bold text-purple-700 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">✨</span> Bilocali
+                  </h3>
+                  <p className="text-gray-600">
+                    Appartamenti con cucina e zona giorno separate dalla zona notte, forniti di matrimoniale e ideale anche per giovani coppie. 
+                  </p>
+                </div>
+
+                <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-xl font-bold text-emerald-700 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">🛏️</span> Trilocali
+                  </h3>
+                  <p className="text-gray-600">
+                    Appartamenti con zona giorno e due camere da letto indipendenti fornite di scrivania e affittabili singolarmente.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Gallery Card */}
+            <div className="w-full lg:w-1/2 relative group cursor-pointer" onClick={() => openGallery(apartmentImages)}>
+              <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-square lg:aspect-auto lg:h-[650px] transform-gpu">
+                <img 
+                  src={apartmentImages[0]} 
+                  alt="Appartamenti" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="bg-white/95 text-blue-900 px-6 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-3">
+                    <Icons.Expand />
+                    <span>Apri Galleria ({apartmentImages.length} foto)</span>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative background element */}
+              <div className="absolute -z-10 top-8 -right-8 w-full h-full bg-blue-50 rounded-3xl hidden lg:block"></div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
-      {/* Map Section - STATIC & REACTIVE */}
-      <div className="bg-white border-t border-gray-100">
-        <div className="container mx-auto px-4 py-16 sm:py-24">
+      {/* SECTION 1: Common Areas (Spazi Comuni) */}
+      <div className="bg-gray-50 py-24 border-t border-gray-100 overflow-hidden">
+        <div className="container mx-auto px-4">
+          
+          {/* Changed to flex-col-reverse so Text appears before Gallery on mobile */}
+          <div className="flex flex-col-reverse lg:flex-row items-center gap-16">
+            
+            {/* Left: Gallery Card */}
+            <div className="w-full lg:w-1/2 relative group cursor-pointer" onClick={() => openGallery(commonAreaImages)}>
+              <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-square lg:aspect-auto lg:h-[600px] transform-gpu">
+                <img 
+                  src={commonAreaImages[0]} 
+                  alt="Spazi Comuni" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/30 transition-all duration-300 flex items-center justify-center">
+                  <div className="bg-white/95 text-blue-900 px-6 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-3">
+                    <Icons.Expand />
+                    <span>Apri Galleria ({commonAreaImages.length} foto)</span>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative background element */}
+              <div className="absolute -z-10 top-8 -left-8 w-full h-full bg-blue-100 rounded-3xl hidden lg:block"></div>
+            </div>
+
+            {/* Right: Text Content */}
+            <div className="w-full lg:w-1/2">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-6">
+                Spazi Comuni da Vivere
+              </h2>
+              <p className="text-lg text-gray-600 mb-10 leading-relaxed">
+                Non offriamo solo un posto letto, ma un ambiente pensato per lo studio, la socialità e il relax. 
+                Ampie aree condivise progettate per farti sentire a casa e socializzare.
+              </p>
+
+              <div className="space-y-8">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 text-2xl">
+                    ☀️
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Spazi esterni</h3>
+                    <p className="text-gray-600">Due ampie terrazze sempre al sole con divanetti e tavolini. Un grande cortile verde con calcetto e ping-pong</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 text-2xl">
+                    📚
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Sala Studio</h3>
+                    <p className="text-gray-600">Scrivanie dedicate, silenzio e Wi-Fi veloce. Il luogo ideale per preparare il prossimo esame o lavorare senza distrazioni.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl bg-green-100 text-green-600 text-2xl">
+                    🌱
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Edificio Eco-Sostenibile</h3>
+                    <p className="text-gray-600">Struttura termicamente riqualificata con impianto a pannelli fotovoltaici, per un impatto ambientale ridotto.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Map Section */}
+      <div className="bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4 py-16 sm:py-24 max-w-5xl">
             <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900">La Posizione</h2>
-                <p className="mt-4 text-lg text-gray-600">
-                    Via Aquila 8 — A pochi passi da Tram e Metro e vicino al centro.
+                <h2 className="text-3xl font-bold text-gray-900">Posizione Strategica</h2>
+                <p className="mt-4 text-lg text-gray-600 font-medium">
+                  Via Aquila 8, Torino
+                </p>
+                <p className="mt-2 text-md text-gray-500">
+                  A pochi passi da fermate di tram, autobus e Metro, vicino a tutti i servizi, comodo per il centro città e le università.
                 </p>
             </div>
             
-            {/* The Container */}
             <a 
-              href="https://www.google.com/maps/place/Via+Aquila,+8,+10144+Torino+TO" 
+              href={mapUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block group relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 cursor-pointer">
-              <Image 
+              className="block group relative w-full h-[350px] md:h-[450px] rounded-3xl overflow-hidden shadow-xl border-4 border-white cursor-pointer transform-gpu"
+            >
+              <img 
                 src="/map_centered.png"
                 alt="Mappa posizione Via Aquila 8 Torino"
-                fill // This replaces w-full h-full
-                className="object-cover object-center transition duration-700 group-hover:scale-105"
-                priority // Loads image faster since it's "above the fold"
+                className="w-full h-full object-cover object-center transition duration-700 group-hover:scale-105"
               />
-                
-              {/* The "Click to Open" Overlay */}
-              <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/20 transition duration-300 flex items-center justify-center">                   
-                <span className="bg-white text-blue-900 px-6 py-3 rounded-full font-bold shadow-2xl transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition duration-300 backdrop-blur-sm">
-                  📍 Apri su Google Maps
+              
+              <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-blue-900/30 transition duration-300 flex items-center justify-center">                   
+                <span className="bg-white text-blue-900 px-6 py-3 rounded-full font-bold shadow-2xl transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition duration-300 backdrop-blur-sm flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  Apri su Google Maps
                 </span>
               </div>
             </a>
         </div>
       </div>
 
-      {/* Coming Soon Section */}
-      <div className="bg-blue-600 text-white py-24">
-        <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold text-white">Prossima Apertura: Primavera 2026</h2>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
-                Stiamo mettendo a punto gli ultimi dettagli per creare uno spazio unico.
-                Compila il form per essere avvisato quando apriremo.
+
+      {/* Call To Action / Footer */}
+      <div className="bg-blue-600 text-white py-24 relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-blue-500 opacity-50 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-700 opacity-50 blur-3xl"></div>
+
+        <div className="container mx-auto px-4 text-center relative z-10">
+            <h2 className="text-4xl font-extrabold text-white mb-6">Prossima Apertura: Primavera 2026</h2>
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Stiamo ultimando i dettagli per creare lo spazio perfetto per te. 
+                Compila ora il form per ricevere aggiornamenti non appena completeremo i lavori.
             </p>
             <a 
               href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-blue-600 bg-white rounded-full shadow-lg hover:bg-blue-50 transition duration-300 transform hover:-translate-y-1"
+              className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-blue-600 bg-white rounded-full shadow-2xl shadow-blue-900/50 hover:bg-blue-50 transition duration-300 transform hover:-translate-y-1 hover:scale-105"
             >
-              📝 Compila il form
+              📝 Compila il form di interesse
             </a>
-
-            {/* <p className="mt-12 text-sm text-blue-200">
-                Hai domande? Scrivici a <a href="mailto:info@boscodellaquila.it" className="underline hover:text-white">info@boscodellaquila.it</a>
-            </p> */}
+            
+            <div className="mt-16 pt-8 border-t border-blue-500/30 text-blue-200 text-sm flex flex-col md:flex-row justify-center md:justify-between items-center gap-4">
+                <span>&copy; {new Date().getFullYear()} Bosco dell'Aquila. Tutti i diritti riservati.</span>
+                <a href="/regolamento" className="hover:text-white transition-colors underline underline-offset-4">
+                    Regolamento della struttura
+                </a>
+            </div>
         </div>
       </div>
 
     </div>
   );
 }
-
