@@ -31,11 +31,11 @@ const Icons = {
 export default function App() {
   const [galleryState, setGalleryState] = useState({
     isOpen: false,
-    images: [],
+    images: [] as string[],
     currentIndex: 0
   });
 
-  const openGallery = (images, index = 0) => {
+  const openGallery = (images: string[], index: number = 0) => {
     setGalleryState({ isOpen: true, images, currentIndex: index });
   };
 
@@ -43,15 +43,15 @@ export default function App() {
     setGalleryState(prev => ({ ...prev, isOpen: false }));
   };
 
-  const nextImage = (e) => {
-    e.stopPropagation();
+  const nextImage = (e: any) => {
+    e?.stopPropagation();
     setGalleryState(prev => ({
       ...prev,
       currentIndex: prev.currentIndex === prev.images.length - 1 ? 0 : prev.currentIndex + 1
     }));
   };
 
-  const prevImage = (e) => {
+  const prevImage = (e: any) => {
     e.stopPropagation();
     setGalleryState(prev => ({
       ...prev,
@@ -61,7 +61,7 @@ export default function App() {
 
   // Handle keyboard navigation for the gallery
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: any) => {
       if (!galleryState.isOpen) return;
       if (e.key === 'Escape') closeGallery();
       if (e.key === 'ArrowRight') nextImage(e);
@@ -116,7 +116,7 @@ export default function App() {
             rel="noopener noreferrer"
             className="hidden sm:inline-block px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
           >
-            Iscriviti alla lista d'attesa
+            Compila il form di interesse
           </a>
         </div>
       </nav>
@@ -155,13 +155,16 @@ export default function App() {
               </div>
             </div>
 
-            {/* Changed from lg:rounded-tl-[80px] to rounded-3xl and added transform-gpu to fix shadow artifact bleeding */}
-            <div className="w-full lg:w-1/2 h-[400px] lg:h-[700px] relative rounded-3xl overflow-hidden shadow-2xl transform-gpu">
-              <img 
-                src="/esterno1.jpg" 
-                alt="Bosco dell'Aquila Exterior"
-                className="w-full h-full object-cover"
-              />
+            {/* Safari/Webkit Shadow Bug Fix: Separated shadow and overflow into two layers */}
+            <div className="w-full lg:w-1/2 h-[400px] lg:h-[700px] relative">
+              <div className="absolute inset-0 rounded-3xl shadow-2xl bg-white/50"></div>
+              <div className="absolute inset-0 rounded-3xl overflow-hidden z-10">
+                <img 
+                  src="/esterno1.jpg" 
+                  alt="Bosco dell'Aquila Exterior"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
 
           </div>
