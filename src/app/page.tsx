@@ -190,7 +190,9 @@ export default function App() {
                 Tutti gli appartamenti sono completamente rinnovati e arredati a nuovo. Dispongono di tutto l'arredo necessario, aria condizionata e bagni di nuova realizzazione.
                 Inoltre come servizi sono inclusi lavanderia comune, wi-fi e parcheggio interno per le biciclette.
               </p>
-
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Le spese saranno ad importo forfettario ed includono: riscaldamento, corrente, acqua e pulizie degli spazi comuni.
+              </p>
               <div className="grid gap-6">
                 <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
                   <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
@@ -200,6 +202,7 @@ export default function App() {
                     Spazi totalmente indipendenti e luminosi. 
                     Ideali per chi cerca la massima privacy, completi di cucina, zona giorno con divano e tavolo, zona notte e bagno.
                   </p>
+                  <p className="text-gray-600 italic">Prezzo 650€ + 110€ di spese</p>
                 </div>
 
                 <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
@@ -209,6 +212,7 @@ export default function App() {
                   <p className="text-gray-600">
                     Appartamenti con cucina e zona giorno separate dalla zona notte, forniti di matrimoniale e ideale anche per giovani coppie. 
                   </p>
+                  <p className="text-gray-600 italic">Prezzo da 750€ + 120€ di spese</p>
                 </div>
 
                 <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
@@ -218,6 +222,7 @@ export default function App() {
                   <p className="text-gray-600">
                     Appartamenti con zona giorno e due camere da letto indipendenti fornite di scrivania e affittabili singolarmente.
                   </p>
+                  <p className="text-gray-600 italic">Prezzo stanza singola 550€ + 100€ di spese</p>
                 </div>
               </div>
             </div>
@@ -314,6 +319,19 @@ export default function App() {
                     <p className="text-gray-600">Struttura termicamente riqualificata con impianto a pannelli fotovoltaici, per un impatto ambientale ridotto.</p>
                   </div>
                 </div>
+                
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 text-2xl">
+                   🤝
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Regolamento</h3>
+                    <p className="text-gray-600">
+                      Per garantire una convivenza serena e rispettosa, ti invitiamo a leggere il nostro <a href="/regolamento" className="text-blue-600 hover:text-blue-800 underline underline-offset-2 transition-colors">Regolamento della struttura</a>.
+                    </p>
+                  </div>
+                </div>
+
               </div>
 
             </div>

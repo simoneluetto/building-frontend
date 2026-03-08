@@ -59,7 +59,7 @@ export default function RegolamentoPage() {
                 </p>
                 <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
                   <li><strong>Pulizia:</strong> Non lasciare oggetti personali, tazze sporche o rifiuti in giro. Lascia lo spazio come vorresti trovarlo.</li>
-                  <li><strong>Rumore:</strong> La Sala Studio è zona di silenzio. Nella Sala Relax e nelle Terrazze divertiti ma con rispetto, rispetta la quiete degli altri inquilini dopo le 23:00.</li>
+                  <li><strong>Rumore:</strong> La Sala Studio è zona di silenzio. Nella Sala Relax e nelle Terrazze divertiti ma con attenzione, rispetta la quiete degli altri inquilini dopo le 23:00.</li>
                   <li><strong>Danni:</strong> Chi rompe, paga. Se danneggi accidentalmente qualcosa, avvisa subito la gestione. È segno di maturità e responsabilità.</li>
                 </ul>
               </div>
@@ -79,7 +79,7 @@ export default function RegolamentoPage() {
                 </p>
                 <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
                   <li><strong>Diurno:</strong> Gli ospiti sono benvenuti durante il giorno, purché non disturbino lo studio o la quiete altrui. Inoltre la presenza di propri ospiti non deve impedire agli altri inquilini di usufruire delle aree comuni.</li>
-                  <li><strong>Pernottamento:</strong> È consentito ospitare occasionalmente (max 2-3 notti al mese) un amico/partner, ovviamente previa comunicazione ai coinquilini in caso di trilocale.</li>
+                  <li><strong>Pernottamento:</strong> È consentito ospitare occasionalmente un amico/partner, ovviamente concordandolo con i coinquilini in caso di trilocale.</li>
                   <li><strong>Responsabilità:</strong> Sei responsabile al 100% del comportamento dei tuoi ospiti all'interno della struttura.</li>
                 </ul>
               </div>
