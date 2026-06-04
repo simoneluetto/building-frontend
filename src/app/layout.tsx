@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Bosco dell'Aquila - Appartamenti per giovani",
-  description: "Una nuova residenza con 14 appartamenti moderni a Torino.",
+  description: "Residenza con 14 appartamenti moderni e spazi condivisi in Via Aquila 8 a Torino.",
 };
 
 // 1. Force Light Mode on Mobile (Fixes the black border/notch)
@@ -40,7 +40,7 @@ export default function RootLayout({
         {/* 3. Global Footer (Appears on EVERY page) */}
         <footer className="bg-white border-t border-gray-200 py-12">
             <div className="container mx-auto px-4 text-center">
-                <h4 className="font-bold text-lg mb-4">Bosco dell'Aquila 🦅</h4>
+            <h4 className="font-bold text-lg mb-4">Bosco dell&apos;Aquila 🦅</h4>
                 
                 <div className="space-y-2 text-gray-600 text-sm mb-8">
                     <p>Via Aquila 8, 10144 Torino (TO)</p>

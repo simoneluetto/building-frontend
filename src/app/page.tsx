@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 
+const contactEmail = 'info@boscodellaquila.it';
+const contactHref = 'mailto:info@boscodellaquila.it?subject=Richiesta%20informazioni%20Bosco%20dell%27Aquila';
+
 // --- DATA CONFIGURATION ---
 // Replace the URLs below with your local image paths when you copy this into Next.js
 // Example: "/PXL_20260222_154049867~2.jpg"
@@ -9,11 +12,13 @@ const commonAreaImages = [
   "/terrazze1.jpg",
   "/terrazze2.jpg",
   "/terrazze3.jpg",
+  "/terrazze4.jpg",
 ];
 
 const apartmentImages = [
-  "/living1.jpg",
   "/living2.jpg",
+  "/monolocale1.jpg",
+  "/living1.jpg",
   "/living3.jpg",
   "/living4.jpg",
   "/bagno1.jpg",
@@ -35,6 +40,8 @@ export default function App() {
     currentIndex: 0
   });
 
+  type GalleryNavigationEvent = React.MouseEvent<HTMLElement> | KeyboardEvent;
+
   const openGallery = (images: string[], index: number = 0) => {
     setGalleryState({ isOpen: true, images, currentIndex: index });
   };
@@ -43,7 +50,7 @@ export default function App() {
     setGalleryState(prev => ({ ...prev, isOpen: false }));
   };
 
-  const nextImage = (e: any) => {
+  const nextImage = (e?: GalleryNavigationEvent) => {
     e?.stopPropagation();
     setGalleryState(prev => ({
       ...prev,
@@ -51,7 +58,7 @@ export default function App() {
     }));
   };
 
-  const prevImage = (e: any) => {
+  const prevImage = (e: GalleryNavigationEvent) => {
     e.stopPropagation();
     setGalleryState(prev => ({
       ...prev,
@@ -61,7 +68,7 @@ export default function App() {
 
   // Handle keyboard navigation for the gallery
   useEffect(() => {
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (!galleryState.isOpen) return;
       if (e.key === 'Escape') closeGallery();
       if (e.key === 'ArrowRight') nextImage(e);
@@ -108,15 +115,13 @@ export default function App() {
       <nav className="fixed top-0 left-0 w-full p-4 sm:p-6 flex justify-between items-center z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-            <span className="text-blue-600">Bosco</span> dell'Aquila 🦅
+            <span className="text-blue-600">Bosco</span> dell&apos;Aquila 🦅
           </div>
           <a 
-            href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={contactHref}
             className="hidden sm:inline-block px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-full shadow-md hover:bg-blue-700 transition duration-300"
           >
-            Compila il form di interesse
+            Contattaci via email
           </a>
         </div>
       </nav>
@@ -137,20 +142,18 @@ export default function App() {
               </h1>
               
               <p className="max-w-xl mx-auto lg:mx-0 text-xl text-gray-600 mb-10 leading-relaxed">
-                Un nuovo edificio residenziale pensato per studenti e giovani lavoratori. 
-                Appartamenti privati per la tua privacy e tanti spazi per la community.
+                Una residenza pensata per studenti e giovani lavoratori.
+                Appartamenti privati, spazi condivisi curati e una posizione strategica nel cuore di Torino.
               </p>
               <p className="max-w-xl mx-auto lg:mx-0 text-2xl font-extrabold text-blue-600 mb-10 leading-relaxed">
-                Prossima apertura primavera 2026
+                Appartamenti gia disponibili in Via Aquila 8
               </p>              
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <a 
-                  href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                  href={contactHref}
                   className="inline-block px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all duration-300 transform hover:-translate-y-0.5"
                 >
-                  📝 Compila il form di interesse
+                  Contattaci via email
                 </a>
               </div>
             </div>
@@ -160,7 +163,7 @@ export default function App() {
               <div className="absolute inset-0 rounded-3xl shadow-2xl bg-white/50"></div>
               <div className="absolute inset-0 rounded-3xl overflow-hidden z-10">
                 <img 
-                  src="/esterno1.jpg" 
+                  src="/esterno3.png"
                   alt="Bosco dell'Aquila Exterior"
                   className="w-full h-full object-cover"
                 />
@@ -187,7 +190,7 @@ export default function App() {
                 Che tu stia cercando la massima indipendenza o preferisca condividere gli spazi, abbiamo la soluzione adatta alle tue esigenze.
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Tutti gli appartamenti sono completamente rinnovati e arredati a nuovo. Dispongono di tutto l'arredo necessario, aria condizionata e bagni di nuova realizzazione.
+                Tutti gli appartamenti sono completamente rinnovati e arredati a nuovo. Dispongono di tutto l&apos;arredo necessario, aria condizionata e bagni di nuova realizzazione.
                 Inoltre come servizi sono inclusi lavanderia comune, wi-fi e parcheggio interno per le biciclette.
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -202,7 +205,7 @@ export default function App() {
                     Spazi totalmente indipendenti e luminosi. 
                     Ideali per chi cerca la massima privacy, completi di cucina, zona giorno con divano e tavolo, zona notte e bagno.
                   </p>
-                  <p className="text-gray-600 italic">Prezzo 650€ + 110€ di spese</p>
+                  <p className="text-gray-600 italic">Prezzo 600€ + 110€ di spese</p>
                 </div>
 
                 <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
@@ -212,7 +215,7 @@ export default function App() {
                   <p className="text-gray-600">
                     Appartamenti con cucina e zona giorno separate dalla zona notte, forniti di matrimoniale e ideale anche per giovani coppie. 
                   </p>
-                  <p className="text-gray-600 italic">Prezzo da 750€ + 120€ di spese</p>
+                  <p className="text-gray-600 italic">Prezzo da 700€ + 120€ di spese</p>
                 </div>
 
                 <div className="p-6 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
@@ -222,7 +225,7 @@ export default function App() {
                   <p className="text-gray-600">
                     Appartamenti con zona giorno e due camere da letto indipendenti fornite di scrivania e affittabili singolarmente.
                   </p>
-                  <p className="text-gray-600 italic">Prezzo stanza singola 550€ + 100€ di spese</p>
+                  <p className="text-gray-600 italic">Prezzo stanza singola 500€ + 100€ di spese</p>
                 </div>
               </div>
             </div>
@@ -384,22 +387,23 @@ export default function App() {
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-700 opacity-50 blur-3xl"></div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
-            <h2 className="text-4xl font-extrabold text-white mb-6">Prossima Apertura: Primavera 2026</h2>
+            <h2 className="text-4xl font-extrabold text-white mb-6">Richiedi informazioni o una visita</h2>
             <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
-                Stiamo ultimando i dettagli per creare lo spazio perfetto per te. 
-                Compila ora il form per ricevere aggiornamenti non appena completeremo i lavori.
+                La residenza è già operativa.
+                Scrivici per conoscere disponibilità, costi aggiornati e modalità di visita.
+            </p>
+            <p className="text-lg text-blue-100 font-semibold mb-8">
+                {contactEmail}
             </p>
             <a 
-              href="https://forms.gle/5tnsZ66TVcxbP6iB9" 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href={contactHref}
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-blue-600 bg-white rounded-full shadow-2xl shadow-blue-900/50 hover:bg-blue-50 transition duration-300 transform hover:-translate-y-1 hover:scale-105"
             >
-              📝 Compila il form di interesse
+              Scrivici a {contactEmail}
             </a>
             
             <div className="mt-16 pt-8 border-t border-blue-500/30 text-blue-200 text-sm flex flex-col md:flex-row justify-center md:justify-between items-center gap-4">
-                <span>&copy; {new Date().getFullYear()} Bosco dell'Aquila. Tutti i diritti riservati.</span>
+                <span>&copy; {new Date().getFullYear()} Bosco dell&apos;Aquila. Tutti i diritti riservati.</span>
                 <a href="/regolamento" className="hover:text-white transition-colors underline underline-offset-4">
                     Regolamento della struttura
                 </a>
