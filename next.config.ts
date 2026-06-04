@@ -1,9 +1,5 @@
 import { NextConfig } from 'next';
-import {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-  PHASE_PRODUCTION_SERVER,
-} from 'next/constants';
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 
 const sharedConfig: NextConfig = {
   images: {
@@ -26,13 +22,6 @@ export default function nextConfig(phase: string): NextConfig {
     return {
       ...sharedConfig,
       distDir: '.next-dev',
-    };
-  }
-
-  if (phase === PHASE_PRODUCTION_BUILD || phase === PHASE_PRODUCTION_SERVER) {
-    return {
-      ...sharedConfig,
-      distDir: '.next-prod',
     };
   }
 

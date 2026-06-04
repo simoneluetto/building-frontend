@@ -41,7 +41,7 @@ This app is a simple public-facing website for a family-owned residential buildi
 - The homepage is a client component because it contains gallery state and keyboard handlers
 - Images currently use plain `<img>` tags, not `next/image`
 - `next.config.ts` allows remote images from local Strapi uploads at `http://127.0.0.1:1337/uploads/**`, but the current landing page only uses local assets
-- Development and production builds use separate Next.js output directories: `.next-dev` for `next dev` and `.next-prod` for production build/server
+- Development uses a separate Next.js output directory `.next-dev`, while production builds use the standard `.next` directory required by Vercel
 - Builds currently succeed because linting is disabled during production builds
 - Lint does not currently pass; most errors are `react/no-unescaped-entities`, plus some `any` usage and `img` warnings
 
@@ -51,7 +51,7 @@ This app is a simple public-facing website for a family-owned residential buildi
 - The project README is still the default `create-next-app` README
 - Typography is inconsistent with the theme intent: layout loads Inter, but global CSS still sets Arial/Helvetica on `body`
 - The app is effectively static marketing content today, despite traces of prior backend/auth integration
-- Running `next build` while `next dev` is active used to corrupt the shared `.next` output; this was fixed by splitting the output directories
+- Running `next build` while `next dev` is active used to corrupt the shared `.next` output; this was fixed by moving only development output to `.next-dev` while keeping production output at `.next`
 
 ## Guidance For Future Changes
 
